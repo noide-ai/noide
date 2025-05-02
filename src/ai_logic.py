@@ -33,7 +33,7 @@ class IssueSolver():
 
         return prompt
 
-    def generate_response(self, issue: Issue, files: list[File]):
+    def solve_issues(self, issue: Issue, files: list[File]):
         prompt = self.generate_prompt(issue, files)
 
         response = self.openai_client.responses.parse(
@@ -42,15 +42,10 @@ class IssueSolver():
             text_format=FileList
         )
 
-        return response.output_parsed
-
-    def solve_issue(self, issue: Issue, files: list[File]):
-        res = []
-        for file in files:
-            file.content = f"Hello World + {datetime.now()}"
-            res.append(file)
+        res = response.output_parsed
 
         return res
+
 
 if __name__ == '__main__':
     issue_solver = IssueSolver()
@@ -63,5 +58,5 @@ if __name__ == '__main__':
 
     # res = issue_solver.generate_response(file_list)
     # print(res)
-    res = issue_solver.generate_response(test_issue, test_file_list)
+    res = issue_solver.solve_issues(test_issue, test_file_list)
     print(res)
