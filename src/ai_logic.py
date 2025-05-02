@@ -1,8 +1,14 @@
+from datetime import datetime
+
 from openai import OpenAI
+
+from src.config import OPENAI_API_KEY
+from src.models import File, Issue
+
 
 class IssueSolver():
     def __init__(self):
-        self.openai_client = OpenAI()
+        self.openai_client = OpenAI(api_key=OPENAI_API_KEY)
 
     def generate_response(self, prompt):
         response = self.openai_client.responses.create(
@@ -11,6 +17,13 @@ class IssueSolver():
         )
         return response
 
+    def solve_issue(self, issue: Issue, files: list[File]):
+        res = []
+        for file in files:
+            file.content = f"Hello World + {datetime.now()}"
+            res.append(file)
+
+        return res
 
 if __name__ == '__main__':
     issue_solver = IssueSolver()
