@@ -1,11 +1,9 @@
-from datetime import datetime
-
 from openai import OpenAI
 
 from src.config import OPENAI_API_KEY
 from src.models import File, Issue, FileList
-from src.primer_prompt import primer_prompt
-from src.test_objects import test_issue, test_file_list
+from src.ai.primer_prompt import primer_prompt
+from src.ai.test_objects import test_issue, test_file_list
 
 
 class IssueSolver():
