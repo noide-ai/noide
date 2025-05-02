@@ -4,6 +4,7 @@ from openai import OpenAI
 
 from src.config import OPENAI_API_KEY
 from src.models import File, Issue, FileList
+from src.test_objects import test_issue, test_file_list
 
 
 class IssueSolver():
@@ -62,5 +63,5 @@ if __name__ == '__main__':
 
     # res = issue_solver.generate_response(file_list)
     # print(res)
-    res = issue_solver.generate_response(issue, file_list)
+    res = issue_solver.generate_response(test_issue, test_file_list)
     print(res)
