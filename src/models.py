@@ -3,9 +3,9 @@ from pydantic import BaseModel
 
 class Issue(BaseModel):
     title: str
-    body: str | None = None
+    body: str = ""
 
 
-class File:
+class File(BaseModel):
     path: str
     content: str = ""
