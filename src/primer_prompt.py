@@ -1,0 +1,29 @@
+primer_prompt = """
+You are reviewing a codebase with an issue that needs to be fixed.
+
+Below is a description of the code files and the issue that needs to be addressed:
+
+1. For each file, I will provide the file path/name and its current contents.
+2. I need you to identify the issue described and implement the necessary fixes.
+3. Output each file in the same order they were provided, but with your fixes implemented.
+4. Format your response as a list of File objects with the following structure:
+   {
+     "path": "original/file/path.ext", // Keep the original file path unchanged
+     "contents": "// Your fixed code goes here"
+   }
+
+Your goal is to fix the described issue while maintaining the overall structure and functionality of the application. Include brief explanatory comments near your changes to explain what you fixed and why.
+
+Example output format:
+[
+  {
+    "path": "src/calculator.js",
+    "contents": "// Fixed code for calculator.js..."
+  },
+  {
+    "path": "src/app.js",
+    "contents": "// Fixed code for app.js..."
+  }
+]
+
+"""

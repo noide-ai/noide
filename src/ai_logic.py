@@ -4,6 +4,7 @@ from openai import OpenAI
 
 from src.config import OPENAI_API_KEY
 from src.models import File, Issue, FileList
+from src.primer_prompt import primer_prompt
 from src.test_objects import test_issue, test_file_list
 
 
@@ -12,15 +13,7 @@ class IssueSolver():
         self.openai_client = OpenAI(api_key=OPENAI_API_KEY)
 
     def generate_prompt(self, issue: Issue, files: list[File]):
-        prompt = """
-        "Below is a description of a list of coding files. As well as an issue. \n 
-        IGNORE THE ISSUE FOR NOW \n
-        For each file, I will provide the file name and path and its contents. \n
-        Can you output each file and contents in the same order, but rewrite each content with some random function. \n
-        Output each this as a list of files according to the File object, \n
-        where the path is the original file name and path (should be unchanged), 
-        and contents is the new contents \n
-        """
+        prompt = primer_prompt
 
         prompt += f"Issue Title: {issue.title}\n"
         prompt += f"Issue Body: \n {issue.body}\n"
