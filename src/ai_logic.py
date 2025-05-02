@@ -3,7 +3,7 @@ from datetime import datetime
 from openai import OpenAI
 
 from src.config import OPENAI_API_KEY
-from src.models import File, Issue
+from src.models import File, Issue, FileList
 
 
 class IssueSolver():
@@ -11,11 +11,15 @@ class IssueSolver():
         self.openai_client = OpenAI(api_key=OPENAI_API_KEY)
 
     def generate_prompt(self, issue: Issue, files: list[File]):
-        prompt = ("Below is a description of a list of coding files. As well as an issue. \n "
-                  "IGNORE THE ISSUE FOR NOW \n"
-                  "For each file, I will provide the file name and path and its contents. \n"
-                  "Can you output each file and contents in the same order, but rewrite each content with some random function. \n"
-                  "Output this as a JSON, where each key is the file/path name and the value is the contents \n")
+        prompt = """
+        "Below is a description of a list of coding files. As well as an issue. \n 
+        IGNORE THE ISSUE FOR NOW \n
+        For each file, I will provide the file name and path and its contents. \n
+        Can you output each file and contents in the same order, but rewrite each content with some random function. \n
+        Output each this as a list of files according to the File object, \n
+        where the path is the original file name and path (should be unchanged), 
+        and contents is the new contents \n
+        """
 
         prompt += f"Issue Title: {issue.title}\n"
         prompt += f"Issue Body: \n {issue.body}\n"
@@ -28,15 +32,16 @@ class IssueSolver():
 
         return prompt
 
-    def generate_response(self, files: list[File]):
-        prompt = self.generate_prompt(files)
+    def generate_response(self, issue: Issue, files: list[File]):
+        prompt = self.generate_prompt(issue, files)
 
-        response = self.openai_client.responses.create(
+        response = self.openai_client.responses.parse(
             model="gpt-4o-mini",
             input=prompt,
+            text_format=FileList
         )
 
-        return response.output_text
+        return response.output_parsed
 
     def solve_issue(self, issue: Issue, files: list[File]):
         res = []
@@ -57,5 +62,5 @@ if __name__ == '__main__':
 
     # res = issue_solver.generate_response(file_list)
     # print(res)
-    prompt = issue_solver.generate_prompt(issue, file_list)
-    print(prompt)
+    res = issue_solver.generate_response(issue, file_list)
+    print(res)

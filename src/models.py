@@ -8,4 +8,7 @@ class Issue(BaseModel):
 
 class File(BaseModel):
     path: str
-    content: str = ""
+    content: str 
+
+class FileList(BaseModel):
+    files: list[File]
