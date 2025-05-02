@@ -1,8 +1,14 @@
 import asyncio
 
+import config
+from api import run_api
+
 
 async def main() -> None:
-    pass
+    await run_api(
+        host=config.APP_HOST,
+        port=config.APP_PORT
+    )
 
 
 if __name__ == "__main__":
