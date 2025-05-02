@@ -1,9 +1,18 @@
 import uvicorn
 from fastapi import FastAPI
 
+from .router import router
+
+
+def setup_routers(app: FastAPI) -> None:
+    app.include_router(router, prefix="/api")
+
 
 def build_app() -> FastAPI:
     app = FastAPI()
+
+    setup_routers(app)
+
     return app
 
 async def run_api(
