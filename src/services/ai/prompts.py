@@ -20,7 +20,7 @@ def get_starter_prompt():
                }
             
             Your goal is to fix the described issue while maintaining the overall structure and 
-            functionality of the application. Don't add comments.
+            functionality of the application. Don't add additional comments, but also don't remove comments that are already there.
             
             Example output format:
             [
