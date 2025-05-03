@@ -1,4 +1,7 @@
+import os
+import shutil
 from typing import Any
+
 from jose import jwt, JWTError
 
 
@@ -13,3 +16,7 @@ def jwt_is_valid(token: str) -> bool:
         return False
 
     return True
+
+def delete_dir_if_exists(path: str):
+    if os.path.isdir(path):
+        shutil.rmtree(path)

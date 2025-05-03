@@ -3,6 +3,8 @@ import shutil
 
 import git
 
+from . import _utils
+
 
 class GitHubDownloader:
 
@@ -11,6 +13,7 @@ class GitHubDownloader:
 
     def download(self, repo_fullname: str, delete_dotgit: bool = True) -> str:
         repo_path = self._get_repo_save_path(repo_fullname)
+        _utils.delete_dir_if_exists(repo_path)
 
         repo_url = self._build_clone_url(repo_fullname)
         git.Repo.clone_from(repo_url, repo_path)
@@ -34,6 +37,4 @@ class GitHubDownloader:
     @staticmethod
     def _delete_dotgit(repo_path: str) -> None:
         # Remove .git directory to discard version control data
-        git_dir = os.path.join(repo_path, ".git")
-        if os.path.isdir(git_dir):
-            shutil.rmtree(git_dir)
+        _utils.delete_dir_if_exists(repo_path + ".git")
