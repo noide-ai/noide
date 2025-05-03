@@ -10,5 +10,10 @@ class File(BaseModel):
     path: str
     content: str 
 
+
 class FileList(BaseModel):
     files: list[File]
+
+
+class PullRequestRejection(BaseModel):
+    comments: str

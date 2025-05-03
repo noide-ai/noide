@@ -15,5 +15,6 @@ GITHUB_APP_PRIVATE_KEY_PEM_PATH: str = os.getenv("GITHUB_APP_PRIVATE_KEY_PEM_PAT
 OPENAI_API_KEY: str | None = os.getenv("OPENAI_API_KEY")
 if OPENAI_API_KEY is None:
     raise ValueError("OPENAI_API_KEY environment variable is not set")
+AI_MODEL = "gpt-4o-mini"
 
 REDIS_URL: str | None = os.getenv("REDIS_URL")
