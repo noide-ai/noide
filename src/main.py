@@ -3,7 +3,7 @@ import asyncio
 import config
 from api import run_api
 from services.github import GitHubApp
-from services.ai.ai_logic import IssueSolver
+from services.ai.engine import IssueSolver
 
 
 def setup_infrastructure():
