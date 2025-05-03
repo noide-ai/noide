@@ -19,8 +19,7 @@ def get_starter_prompt():
                }
             
             Your goal is to fix the described issue while maintaining the overall structure and 
-            functionality of the application. Include brief explanatory comments near your changes to 
-            explain what you fixed and why.
+            functionality of the application. Don't add comments.
             
             Example output format:
             [
