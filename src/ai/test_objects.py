@@ -1,7 +1,7 @@
 """
 Dummy File objects to use to test ai_logic file
 """
-from src.models import File, Issue, FileList
+from models import File, Issue, FileList
 
 file1 = File(path='calculator.py',
              content="""
