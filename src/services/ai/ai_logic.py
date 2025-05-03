@@ -1,11 +1,10 @@
 from openai import OpenAI
 
-from models import File, Issue, FileList
-from .primer_prompt import primer_prompt
+from src.services.ai._utils import generate_prompt
+from ...models import Issue, File, FileList
 from .test_objects import test_issue, test_file_list
 
-
-class IssueSolver():
+class IssueSolver:
     _openai_api_key: str | None = None
 
     @classmethod
@@ -15,21 +14,8 @@ class IssueSolver():
     def __init__(self):
         self.openai_client = OpenAI(api_key=self._openai_api_key)
 
-    def generate_prompt(self, issue: Issue, files: list[File]):
-        prompt = primer_prompt
-
-        prompt += f"Issue Title: {issue.title}\n"
-        if issue.body:
-            prompt += f"Issue Body: \n {issue.body}\n"
-
-        for file in files:
-            prompt += f"File path and name: {file.path} \n"
-            prompt += f"Content: \n {file.content}"
-
-        return prompt
-
     def solve_issues(self, issue: Issue, files: list[File]):
-        prompt = self.generate_prompt(issue, files)
+        prompt = generate_prompt(issue, files)
 
         response = self.openai_client.responses.parse(
             model="gpt-4o-mini",
@@ -53,5 +39,5 @@ if __name__ == '__main__':
 
     # res = issue_solver.generate_response(file_list)
     # print(res)
-    res = issue_solver.solve_issues(test_issue, test_file_list)
-    print(res)
+    test_response = issue_solver.solve_issues(test_issue, test_file_list)
+    print(test_response)
