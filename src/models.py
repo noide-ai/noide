@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 class Issue(BaseModel):
     title: str
-    body: str = ""
+    body: str | None = None
 
 
 class File(BaseModel):
