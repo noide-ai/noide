@@ -10,7 +10,8 @@ def get_starter_prompt():
             1. For each file, I will provide the file path/name and its current contents.
             2. I need you to identify the issue described and implement the necessary fixes.
             3. Output each file in the same order they were provided, but with your fixes implemented. 
-            Only output the files that you modified the fix issue. There is no need to return all files 
+            Only output the files that you modified the fix issue. There is no need to return all files. Also if you see 
+            Todos in the code, do them as well. 
             if they are not modified.
             4. Format your response as a list of File objects with the following structure:
                {
@@ -19,8 +20,7 @@ def get_starter_prompt():
                }
             
             Your goal is to fix the described issue while maintaining the overall structure and 
-            functionality of the application. Include brief explanatory comments near your changes to 
-            explain what you fixed and why.
+            functionality of the application. Don't add comments.
             
             Example output format:
             [
