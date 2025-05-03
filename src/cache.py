@@ -4,8 +4,9 @@ class Cache:
     _redis: aioredis.Redis | None = None
 
     @classmethod
-    def setup(cls, redis_url: str) -> None:
+    async def setup(cls, redis_url: str) -> None:
         cls._redis = aioredis.from_url(redis_url, decode_responses=True)
+        await cls._redis.ping()
 
     @classmethod
     def _check_setup(cls) -> None:

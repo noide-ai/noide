@@ -7,7 +7,7 @@ from services.ai.engine import IssueSolver
 from cache import Cache
 
 
-def setup_infrastructure():
+async def setup_infrastructure():
     with open(config.GITHUB_APP_PRIVATE_KEY_PEM_PATH) as f:
         private_key = f.read()
     GitHubApp.setup(config.GITHUB_CLIENT_ID, private_key)
@@ -16,11 +16,11 @@ def setup_infrastructure():
 
     if config.REDIS_URL:
         print("Cache enabled")
-        Cache.setup(config.REDIS_URL)
+        await Cache.setup(config.REDIS_URL)
 
 
 async def main() -> None:
-    setup_infrastructure()
+    await setup_infrastructure()
 
     await run_api(
         host=config.APP_HOST,
