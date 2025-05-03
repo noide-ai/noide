@@ -1,9 +1,9 @@
 from openai import OpenAI
 
-from src.config import OPENAI_API_KEY
-from src.models import File, Issue, FileList
-from src.ai.primer_prompt import primer_prompt
-from src.ai.test_objects import test_issue, test_file_list
+from config import OPENAI_API_KEY
+from models import File, Issue, FileList
+from .primer_prompt import primer_prompt
+from .test_objects import test_issue, test_file_list
 
 
 class IssueSolver():
@@ -14,9 +14,8 @@ class IssueSolver():
         prompt = primer_prompt
 
         prompt += f"Issue Title: {issue.title}\n"
-        prompt += f"Issue Body: \n {issue.body}\n"
-
-        prompt += issue.body
+        if issue.body:
+            prompt += f"Issue Body: \n {issue.body}\n"
 
         for file in files:
             prompt += f"File path and name: {file.path} \n"
