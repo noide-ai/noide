@@ -1,4 +1,4 @@
-from ...models import Issue, File
+from models import Issue, File
 
 def get_starter_prompt():
     return """

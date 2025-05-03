@@ -11,9 +11,7 @@ def setup_infrastructure():
         private_key = f.read()
     GitHubApp.setup(config.GITHUB_CLIENT_ID, private_key)
 
-    with open(config.OPENAI_API_KEY) as f:
-        openai_api_key = f.read()
-    IssueSolver.setup(openai_api_key)
+    IssueSolver.setup(config.OPENAI_API_KEY)
 
 
 

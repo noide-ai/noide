@@ -1,7 +1,7 @@
 from openai import OpenAI
 
-from src.services.ai.prompts import generate_prompt
-from ...models import Issue, File, FileList
+from services.ai.prompts import generate_prompt
+from models import Issue, File, FileList
 
 
 class IssueSolver:

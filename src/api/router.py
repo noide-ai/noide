@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request, Header, HTTPException
 
-from ai.ai_logic import IssueSolver
+from services.ai import IssueSolver
 from api.schemas import OkResponse
 from services.github import GitHubApp, GitHubDownloader, GitHubAPI
 from services.scanner import Scanner
