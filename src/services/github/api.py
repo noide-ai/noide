@@ -60,7 +60,13 @@ class GitHubAPI:
         }
         await self._post(url, data)
 
-    async def create_commit(self, files: list[File], branch: str, from_branch: str | None = None) -> str:
+    async def create_commit(
+        self,
+        files: list[File],
+        branch: str,
+        from_branch: str | None = None,
+        message: str = "NoIDE commit",
+    ) -> str:
         branch_sha = await self._get_branch_sha(branch)
         if not branch_sha:
             await self._create_branch(branch, from_branch)
@@ -95,7 +101,7 @@ class GitHubAPI:
 
         # Create commit
         commit = await self._post(f"{self.api_url}/git/commits", {
-            "message": "Programmatically created commit",
+            "message": message,
             "tree": tree_sha,
             "parents": [base_commit_sha]
         })

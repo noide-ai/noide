@@ -56,11 +56,17 @@ async def handle_github_webhook(
 
     gh_api = GitHubAPI(gh_access_token, repo_fullname)
     try:
-        branch_name = f"noide-issue-{issue_dict.get('number')}"
+        issue_number = issue_dict.get("number")
+        commit_message = f"NoIDE fix #{issue_number}"
+        branch_name = f"noide-issue-{issue_number}"
         base_branch = body.get("repository", {}).get("default_branch", "main")
         print("Creating commit to", branch_name, "from", base_branch)
-        commit_sha = await gh_api.create_commit(updated_files.files, branch=branch_name)
-        pr_url = await gh_api.create_pull_request(head_branch=branch_name, base_branch=base_branch)
+        commit_sha = await gh_api.create_commit(updated_files.files, branch=branch_name, message=commit_message)
+        pr_url = await gh_api.create_pull_request(
+            head_branch=branch_name,
+            base_branch=base_branch,
+            title=commit_message
+        )
         print("Pull Request created:", pr_url)
     finally:
         await gh_api.aclose()
