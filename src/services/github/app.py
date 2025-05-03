@@ -2,6 +2,7 @@ import time
 
 import httpx
 
+from cache import Cache
 from . import _utils
 
 
@@ -16,6 +17,18 @@ class GitHubApp:
 
     @classmethod
     async def get_installation_access_token(cls, installation_id: str) -> str:
+        cached_token = (await Cache.get(installation_id)) if Cache.is_configured() else None
+        if cached_token:
+            print("Used cached token")
+            return cached_token
+
+        token = await cls._generate_installation_access_token(installation_id)
+        if Cache.is_configured():
+            await Cache.set(installation_id, token, 59 * 60)  # 59 minutes
+        return token
+
+    @classmethod
+    async def _generate_installation_access_token(cls, installation_id: str) -> str:
         headers = {
             "Authorization": f"Bearer {cls._get_jwt()}",
             "Accept": "application/vnd.github+json"

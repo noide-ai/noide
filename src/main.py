@@ -4,6 +4,7 @@ import config
 from api import run_api
 from services.github import GitHubApp
 from services.ai.engine import IssueSolver
+from cache import Cache
 
 
 def setup_infrastructure():
@@ -13,6 +14,9 @@ def setup_infrastructure():
 
     IssueSolver.setup(config.OPENAI_API_KEY)
 
+    if config.REDIS_URL:
+        print("Cache enabled")
+        Cache.setup(config.REDIS_URL)
 
 
 async def main() -> None:
