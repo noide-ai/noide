@@ -1,4 +1,4 @@
-from .primer_prompt import primer_prompt
+from .prompts import primer_prompt
 from ...models import Issue, File
 
 
