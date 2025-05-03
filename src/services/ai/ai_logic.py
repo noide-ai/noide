@@ -1,14 +1,19 @@
 from openai import OpenAI
 
-from config import OPENAI_API_KEY
 from models import File, Issue, FileList
 from .primer_prompt import primer_prompt
 from .test_objects import test_issue, test_file_list
 
 
 class IssueSolver():
+    _openai_api_key: str | None = None
+
+    @classmethod
+    def setup(cls, openai_api_key: str):
+        cls._openai_api_key = openai_api_key
+
     def __init__(self):
-        self.openai_client = OpenAI(api_key=OPENAI_API_KEY)
+        self.openai_client = OpenAI(api_key=self._openai_api_key)
 
     def generate_prompt(self, issue: Issue, files: list[File]):
         prompt = primer_prompt
