@@ -10,8 +10,8 @@ def get_starter_prompt():
             1. For each file, I will provide the file path/name and its current contents.
             2. I need you to identify the issue described and implement the necessary fixes.
             3. Output each file in the same order they were provided, but with your fixes implemented. 
-            Only output the files that you modified the fix issue. There is no need to return all files. Also if you see 
-            Todos in the code, do them as well. 
+            Only output the files that you modified the fix issue. There is no need to return all files. You can also create new files if you would like and feel it will help you solve the issue.
+            Also if you see todos in the code, do them as well. 
             if they are not modified.
             4. Format your response as a list of File objects with the following structure:
                {
