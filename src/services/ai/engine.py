@@ -10,9 +10,7 @@ class IssueSolver:
     @classmethod
     def setup(cls, openai_api_key: str):
         cls._openai_api_key = openai_api_key
-
-    def __init__(self):
-        self.openai_client = OpenAI(api_key=self._openai_api_key)
+        cls.openai_client = OpenAI(api_key=cls._openai_api_key)
 
     def solve_issues(self, issue: Issue, files: list[File]):
         prompt = generate_prompt(issue, files)
@@ -23,6 +21,6 @@ class IssueSolver:
             text_format=FileList
         )
 
-        res = response.output_parsed
+        return response.output_parsed
 
-        return res
+
