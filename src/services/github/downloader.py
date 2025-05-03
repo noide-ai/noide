@@ -37,4 +37,4 @@ class GitHubDownloader:
     @staticmethod
     def _delete_dotgit(repo_path: str) -> None:
         # Remove .git directory to discard version control data
-        _utils.delete_dir_if_exists(repo_path + ".git")
+        _utils.delete_dir_if_exists(repo_path + "/.git")
