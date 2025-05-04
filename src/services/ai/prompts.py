@@ -10,9 +10,9 @@ def get_starter_prompt():
             1. For each file, I will provide the file path/name and its current contents.
             2. I need you to identify the issue described and implement the necessary fixes.
             3. Output each file in the same order they were provided, but with your fixes implemented. 
-            Only output the files that you modified the fix issue. There is no need to return all files. You can also create new files if you would like and feel it will help you solve the issue.
+            Only output the files that you modified to fix the issue. There is no need to return all files if they are not modified..
+             You can also create new files if you would like and feel it will help you solve the issue.
             Also if you see todos in the code, do them as well. 
-            if they are not modified.
             4. Format your response as a list of File objects with the following structure:
                {
                  "path": "original/file/path.ext", // Keep the original file path unchanged
@@ -20,7 +20,10 @@ def get_starter_prompt():
                }
             
             Your goal is to fix the described issue while maintaining the overall structure and 
-            functionality of the application. Don't add additional comments, but also don't remove comments that are already there.
+            functionality of the application. Don't add additional comments unless otherwise instructed, but also don't remove comments that are already there.
+            
+            * If you see the command "aisuggest" in an issue comment, provide a suggestion on how to solve the issue given the issue, comment and repository context. You can do this by creating comments in the code.
+            * If you see the command "aisolve" in an issue, solve the issue in case it was missed when it was created.
             
             Example output format:
             [
