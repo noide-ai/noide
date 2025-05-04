@@ -124,3 +124,14 @@ class GitHubAPI:
         }
         pr_data = await self._post(f"{self.api_url}/pulls", data)
         return pr_data["html_url"]
+
+    async def comment_on_issue(self, issue_number: int, body: str) -> str:
+        url = f"{self.api_url}/issues/{issue_number}/comments"
+        data = {"body": body}
+        response = await self._post(url, data)
+        return response["id"]
+
+    async def update_comment(self, comment_id: str, body: str):
+        url = f"{self.api_url}/issues/comments/{comment_id}"
+        data = {"body": body}
+        return await self._patch(url, data)

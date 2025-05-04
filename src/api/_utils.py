@@ -28,14 +28,19 @@ async def solve_issue(request_body: dict) -> None:
     issue_obj = Issue(title=issue_dict.get("title"), body=issue_dict.get("body", ""))
     repo_files = Scanner.scan_dir(saved_repo_path)
 
+    gh_api = GitHubAPI(gh_access_token, repo_fullname)
+
+    issue_number = int(issue_dict.get("number"))
+    commit_id = await gh_api.comment_on_issue(issue_number, "Solving the issue...")
+
     print("Solving", issue_obj.title)
     updated_files = IssueSolver().solve_issues(issue_obj, repo_files)
     if not updated_files:
         return
 
-    gh_api = GitHubAPI(gh_access_token, repo_fullname)
     try:
-        issue_number = issue_dict.get("number")
+        await gh_api.update_comment(commit_id, "Finishing the work...")
+
         commit_message = f"NoIDE fix #{issue_number}"
         branch_name = f"noide-issue-{issue_number}"
         base_branch = request_body.get("repository", {}).get("default_branch", "main")
@@ -46,6 +51,8 @@ async def solve_issue(request_body: dict) -> None:
             base_branch=base_branch,
             title=commit_message
         )
+
+        await gh_api.update_comment(commit_id, f"Pull request: {pr_url}")
         print("Pull Request created:", pr_url)
     finally:
         await gh_api.aclose()

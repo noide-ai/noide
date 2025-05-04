@@ -21,7 +21,15 @@ async def handle_github_webhook(
     print(x_github_event)
 
     body = await request.json()
-    if x_github_event == "issues" and body.get("action") == "opened":
+    action = body.get("action")
+    if x_github_event == "issues" and action == "opened":
         await _utils.solve_issue(body)
+
+    elif x_github_event == "issue_comment" and (action == "created" or body.get("action") == "edited"):
+        comment = body.get("comment", {}).get("body", "")
+        if comment.startswith("aisolve"):
+            await _utils.solve_issue(body)
+        elif comment.startswith("aisuggest"):
+            pass
 
     return OkResponse()
