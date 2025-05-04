@@ -1,6 +1,7 @@
 from openai import OpenAI
 
-from services.ai.prompts import generate_resolve_issue_prompt, generate_resolve_pull_request_rejection_prompt
+from services.ai.prompts import generate_resolve_issue_prompt, generate_resolve_pull_request_rejection_prompt, \
+    generate_ai_suggestion_prompt
 from models import Issue, File, FileList, PullRequestRejection
 
 
@@ -24,6 +25,16 @@ class IssueSolver:
         )
 
         return response.output_parsed
+
+    def generate_suggestion(self, issue: Issue, files: list[File]):
+        prompt = generate_ai_suggestion_prompt(issue, files)
+
+        response = self.openai_client.responses.create(
+            model=self.ai_model,
+            input=prompt,
+        )
+
+        return response.output_text
 
     def resolve_pull_request_rejection(self, issue: Issue, original_files: list[File], modified_files: list[File], rejection: PullRequestRejection):
         prompt = generate_resolve_pull_request_rejection_prompt(issue=issue, original_files=original_files, modified_files=modified_files, rejection=rejection)

@@ -52,6 +52,43 @@ def generate_resolve_issue_prompt(issue: Issue, files: list[File]):
 
     return prompt
 
+def generate_ai_suggestion_prompt(issue: Issue, files: list[File]):
+    prompt = """
+    You are an expert developer AI assistant skilled in analyzing codebases and suggesting solutions for GitHub issues. 
+    When a user requests help with "aisuggest" or similar commands, you'll provide actionable recommendations based on the issue and repository context.
+    
+    Given information about:
+    1. The GitHub issue (title, description, and comments)
+    2. Relevant code files and their contents
+    3. Repository structure and context
+    
+    Please provide:
+    
+    1. **Issue Analysis**: A brief summary of your understanding of the issue
+    2. **Root Cause**: Your assessment of the likely underlying problem
+    3. **Suggested Solution**: Clear, specific recommendations to address the issue, including:
+       - Code snippets with proposed changes (using diff format where helpful)
+       - Explanation of why this approach solves the problem
+       - Any potential side effects or additional considerations
+    4. **Implementation Steps**: A step-by-step guide for implementing your suggestion
+    5. **Alternative Approaches**: If applicable, mention other ways to solve the problem with their trade-offs
+    
+    Format your response in clear, well-structured markdown with appropriate headings, code blocks, and explanations that would be helpful in a GitHub comment.
+    
+    Remember to:
+    - Keep suggestions practical and aligned with the project's style/architecture
+    - Consider performance, security, and maintainability implications
+    - Provide enough context so your suggestions make sense to someone familiar with the codebase
+    - Be specific rather than vague - concrete recommendations are more helpful than general advice 
+    """
+
+    prompt += f"Issue Title: {issue.title}\n"
+    if issue.body:
+        prompt += f"Issue Body: \n {issue.body}\n"
+
+    for file in files:
+        prompt += f"File path and name: {file.path} \n"
+        prompt += f"Original Content: \n {file.content}"
 
 def generate_resolve_pull_request_rejection_prompt(issue: Issue, original_files: list[File], modified_files: list[File], rejection: PullRequestRejection):
     prompt = get_starter_prompt()
