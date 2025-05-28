@@ -9,9 +9,9 @@ def generate_jwt(payload: dict[str, Any], secret: str, algorithm: str = "RS256")
     return jwt.encode(payload, secret, algorithm=algorithm)
 
 
-def jwt_is_valid(token: str) -> bool:
+def jwt_is_valid(token: str, key: str) -> bool:
     try:
-        payload = jwt.decode(token)
+        payload = jwt.decode(token, key=key)
     except JWTError:
         return False
 

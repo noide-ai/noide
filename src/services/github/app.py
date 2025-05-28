@@ -41,7 +41,7 @@ class GitHubApp:
 
     @classmethod
     def _get_jwt(cls) -> str:
-        if not cls._jwt_token or _utils.jwt_is_valid(cls._jwt_token):
+        if not cls._jwt_token or _utils.jwt_is_valid(cls._jwt_token, cls._private_key):
             cls._generate_jwt()
         return cls._jwt_token
 
